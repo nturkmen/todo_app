@@ -1,0 +1,80 @@
+
+<%# Notice mesajını sayfanın en üstünde göster %>
+<% if notice %>
+  <div class="alert alert-success"><%= notice %></div>
+<% end %>
+<div class="col-md-8 m-4">
+  <%# TodoApp %>
+  <% content_for :title do %>
+    Tasks
+  <% end %>
+
+  <h1 class="mb-4">Todo App</h1>
+
+  <%= link_to "Add Todo", new_task_path, class: "btn btn-primary mb-3 me-2" %>
+
+  <!-- Completed Tasks -->
+  <div class="row">
+    <div>
+      <h3>InCompleted Tasks</h3>
+
+      <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Completed</th>
+          <th>Title</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+
+        <tbody>
+            <% @tasks.where(completed: false).each do |task| %>
+              <tr>
+              <td>
+                <%= form_with model:task, local: true do |f|%>
+                  <%= f.check_box :completed, { checked: task.completed, onchange: 'this.form.submit();' } %>
+                <% end %>
+              </td>
+              <td><%= task.title %></td>
+              <td>
+                <%= link_to "Show", task, class: "btn btn-sm btn-info" %>
+                <%= link_to "Edit", edit_task_path(task), class: "btn btn-sm btn-warning" %>
+                <%= link_to "Delete", task_path(task), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-sm btn-danger" %>
+              </td>
+              </tr>
+              <% end %>
+        </tbody>
+      </table>
+      </div>
+
+      <div>
+        <h3>Completed Tasks</h3>
+          <table class="table table-striped table-hover">
+            <thead>
+              <tr>
+                <th>Completed</th>
+                <th>Title</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @tasks.where(completed: true).each do |task| %>
+                <tr class="table-success">
+                  <td>
+                    <%= form_with model: task, local: true do |f| %>
+                      <%= f.check_box :completed, { checked: task.completed, onchange: 'this.form.submit();' } %>
+                    <% end %>
+                  </td>
+                  <td><%= task.title %></td>
+                  <td>
+                    <%= link_to "Show", task, class: "btn btn-sm btn-info" %>
+                    <%= link_to "Edit", edit_task_path(task), class: "btn btn-sm btn-warning" %>
+                    <%= link_to "Delete", task_path(task), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-sm btn-danger" %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+        </table>
+      </div>
+  </div>
+</div>
