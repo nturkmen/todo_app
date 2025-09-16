@@ -82,6 +82,8 @@ GEM
     benchmark (0.4.1)
     bigdecimal (3.2.3)
     bindex (0.8.1)
+    bootstrap (5.3.5)
+      popper_js (>= 2.11.8, < 3)
     brakeman (7.1.0)
       racc
     builder (3.3.0)
@@ -198,6 +200,7 @@ GEM
     parser (3.3.9.0)
       ast (~> 2.4.1)
       racc
+    popper_js (2.11.8)
     pp (0.6.2)
       prettyprint
     prettyprint (0.2.0)
@@ -392,6 +395,7 @@ PLATFORMS
   x86_64-linux-musl
 
 DEPENDENCIES
+  bootstrap (~> 5.3, >= 5.3.3)
   brakeman
   capybara
   debug
