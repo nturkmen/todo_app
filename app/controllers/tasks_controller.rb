@@ -1,9 +1,11 @@
 class TasksController < ApplicationController
-  before_action :set_task, only: [:show, :edit, :update, :destroy]
+  before_action :set_task, only: [ :show, :edit, :update, :destroy ]
 
   # GET /tasks
   def index
-    @tasks = Task.order(completed: :desc, created_at: :asc)
+    @incomplete_tasks = Task.where(completed: false).order(created_at: :asc)
+    @completed_tasks  = Task.where(completed: true).order(created_at: :asc)
+    @task = Task.new
   end
 
   # GET /tasks/1
@@ -31,11 +33,12 @@ class TasksController < ApplicationController
 
   # PATCH/PUT /tasks/1
   def update
-    if @task.update(task_params)
-      redirect_to @task, notice: "Task was successfully updated."
-    else
-      render :edit
-    end
+    @task = Task.find(params[:id])
+      if @task.update(task_params)
+      redirect_back(fallback_location: task_path, notice: "Task was successfully updated.")
+      else
+      redirect_back(fallback_location: task_path, alert: "Update failed")
+      end
   end
 
   # DELETE /tasks/1
@@ -55,4 +58,4 @@ class TasksController < ApplicationController
     def task_params
       params.require(:task).permit(:title, :description, :completed)
     end
-  end
+end
